@@ -1,4 +1,5 @@
 require './game'
+require './frame'
 
 describe "The Bowling Game" do
 
