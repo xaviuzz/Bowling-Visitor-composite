@@ -27,7 +27,8 @@ describe "The Bowling Game" do
     @game.roll(ANY_ROLL)
     @game.roll(STRIKE-ANY_ROLL)
     @game.roll(ANY_ROLL)
-    expect(@game.score()).to eq(16)
+    @game.roll(ANY_ROLL)
+    expect(@game.score()).to eq(19)
   end
 
   it "scores a strike" do
@@ -43,6 +44,24 @@ describe "The Bowling Game" do
     @game.roll(ANY_ROLL)
     @game.roll(ANY_ROLL)
     expect(@game.score()).to eq(13)
+  end
+
+  it "scores more than two frame" do
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    expect(@game.score()).to eq(15)
+  end
+
+  it "scores spare in more than two frame with bonus" do
+    @game.roll(STRIKE)
+    @game.roll(STRIKE-ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+    expect(@game.score()).to eq(39)
   end
 
 end
