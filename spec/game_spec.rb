@@ -1,6 +1,5 @@
 require './game'
 require './frame'
-require './composable_frame'
 
 describe "The Bowling Game" do
 
