@@ -46,7 +46,7 @@ class Frame
   end
 
   def get_next
-    @next = ComposableFrame.new if @next.nil?
+    @next = Frame.new if @next.nil?
     return @next
   end
 
