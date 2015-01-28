@@ -10,10 +10,6 @@ class Frame
     @first
   end
 
-  def first_roll
-    spare_bonus
-  end
-
   def score
     @first.to_i + @second.to_i
   end

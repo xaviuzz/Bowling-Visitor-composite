@@ -5,48 +5,44 @@ class Game
   end
   
   def roll pins_down
-    @current_frame.anotate pins_down
-    next_frame_when_needed      
+    current_frame.anotate pins_down      
   end
 
   def score
-    result = sum_frame_scores
-    result += bonuses
-    result
+    scores + bonuses
   end
   
   private
 
   def bonuses
-    result = 0
-    result += @second_frame.score if @first_frame.strike?
-    result += @third_frame.score if @second_frame.strike?
-    result += @second_frame.first_roll if @first_frame.spare?
-    result += @third_frame.first_roll if @second_frame.spare?
-    result
-  end
-
-  def sum_frame_scores
-    @first_frame.score + @second_frame.score + @third_frame.score
-  end
-
-  def next_frame_when_needed
-    if (@current_frame.strike? || @current_frame.full?)
-      if @current_frame == @first_frame
-        @current_frame = @second_frame
-      else
-        @current_frame = @third_frame
-      end
+    total=0
+    @frames.each_with_index do |frame, index|
+      total+=@frames[index+1].score if frame.strike?
+      total+=@frames[index+1].spare_bonus if frame.spare?
     end
+    total
   end
 
-  
+  def scores
+    total=0
+    for frame in @frames 
+      total+=frame.score
+    end
+    total
+  end
+
+  def current_frame
+    if (@frames[@current_index].strike? || @frames[@current_index].full?)
+      @frames.push (Frame.new)
+      @current_index += 1
+    end
+    @frames[@current_index]
+  end
+
   def init_frames
-    @first_frame=Frame.new
-    @second_frame=Frame.new
-    @third_frame=Frame.new
-    @current_frame = @first_frame
+    @frames = Array.new
+    @frames.push (Frame.new)
+    @current_index = 0
   end
 
 end
-
