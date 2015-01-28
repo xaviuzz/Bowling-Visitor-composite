@@ -17,51 +17,81 @@ describe "The Bowling Game" do
   end
 
   it "scores the second try too " do
-    number_of_rolls = 2
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    expect(@game.score()).to eq(ANY_ROLL*number_of_rolls)
+    roll_six_pins_frame
+    expect(@game.score()).to eq(6)
   end
 
   it "scores a spare" do
-    @game.roll(ANY_ROLL)
-    @game.roll(STRIKE-ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
+    roll_spare
+    roll_six_pins_frame
     expect(@game.score()).to eq(19)
   end
 
   it "scores a strike" do
     @game.roll(STRIKE)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
+    roll_six_pins_frame
     expect(@game.score()).to eq(22)
   end
 
-  it "scores the next frame" do
-    @game.roll(4)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    expect(@game.score()).to eq(13)
-  end
-
-  it "scores more than two frame" do
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    expect(@game.score()).to eq(15)
-  end
-
-  it "scores spare in more than two frame with bonus" do
+  it "scores a normal game" do
     @game.roll(STRIKE)
-    @game.roll(STRIKE-ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    @game.roll(ANY_ROLL)
-    expect(@game.score()).to eq(39)
+    @game.roll(7)
+    @game.roll(3)
+    @game.roll(9)
+    @game.roll(0)
+    @game.roll(STRIKE)
+    @game.roll(0)
+    @game.roll(8)
+    @game.roll(8)
+    @game.roll(2)
+    @game.roll(0)
+    @game.roll(6)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(8)
+    @game.roll(1)
+    expect(@game.score()).to eq(167)
   end
 
+  it "scores an extended game" do
+    @game.roll(STRIKE)
+    roll_spare
+    roll_six_pins_frame
+    @game.roll(STRIKE)
+    roll_spare
+    roll_six_pins_frame
+    roll_six_pins_frame
+    roll_six_pins_frame
+    roll_six_pins_frame
+    roll_spare
+    @game.roll(ANY_ROLL)
+    expect(@game.score()).to eq(109)
+  end
+
+  it "scores a perfect game" do
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(STRIKE)
+    @game.roll(0)
+    expect(@game.score()).to eq(300)
+  end
+
+  def roll_six_pins_frame
+    @game.roll(ANY_ROLL)
+    @game.roll(ANY_ROLL)
+  end
+
+  def roll_spare
+    @game.roll(ANY_ROLL)
+    @game.roll(STRIKE-ANY_ROLL)
+  end
 end
