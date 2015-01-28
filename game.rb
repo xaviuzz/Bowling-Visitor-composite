@@ -4,7 +4,7 @@ class Game
   ARRAY_BASE_CORRECTION = -1
 
   def initialize
-    @rolls = ComposableFrame.new
+    @rolls = Frame.new
   end
   
   def roll pins_down
