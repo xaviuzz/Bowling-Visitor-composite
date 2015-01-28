@@ -1,23 +1,21 @@
 class Frame
-
-  
-  NO_PINS = 0
   MAX_PINS = 10
-  NO_TRY = 0
-  TRIES_PER_FRAME = 2 
 
-  def first_roll
+  def initialize
+    @first= nil
+    @second= nil
+  end
+  
+  def spare_bonus
     @first
   end
 
-  def score
-    @pins_down
+  def first_roll
+    spare_bonus
   end
 
-  def initialize
-    @pins_down=NO_PINS
-    @tries= NO_TRY
-    @first= NO_PINS
+  def score
+    @first.to_i + @second.to_i
   end
 
   def strike? 
@@ -25,21 +23,20 @@ class Frame
   end
 
   def spare? 
-    (@pins_down == MAX_PINS)&&(!strike?)
+    return false if strike?
+    score == MAX_PINS
   end
 
   def anotate pins_down
-    increment_tries
-    @first=pins_down if @tries==1
-    @pins_down+=pins_down
+    if @first.nil?
+      @first=pins_down 
+    else
+      @second=pins_down
+    end 
   end
 
   def full?
-    @tries >= TRIES_PER_FRAME
+    !@second.nil?
   end
   
-  private
-  def increment_tries
-    @tries += 1
-  end
 end
