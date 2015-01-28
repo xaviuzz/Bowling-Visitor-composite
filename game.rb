@@ -4,11 +4,11 @@ class Game
   ARRAY_BASE_CORRECTION = -1
 
   def initialize
-    init_frames
+    @rolls = ComposableFrame.new
   end
   
   def roll pins_down
-    current_frame.anotate pins_down      
+    @rolls.anotate pins_down      
   end
 
   def score
@@ -17,20 +17,8 @@ class Game
   
   private
 
-  def init_frames
-    @frames = Array.new
-    @frames.push (Frame.new)
-    @current_index = ARRAY_BASE
-  end
-
-  def current_frame
-    if (new_frame_needed?)
-      add_frame
-    end
-    @frames[@current_index]
-  end
-
   def scores
+    @frames = @rolls.as_frames
     total = 0
     @frames.each_with_index do |frame, index|
       break unless scoreable?(index) || frame.strike?
@@ -40,6 +28,7 @@ class Game
   end
 
   def bonuses
+    @frames = @rolls.as_frames
     total = 0
     @frames.each_with_index do |frame, index| 
       break if last_frame?(index)
@@ -73,14 +62,5 @@ class Game
 
   def scoreable? index
     index <= (MAX_SCOREABLE_FRAME + ARRAY_BASE_CORRECTION)
-  end
-
-  def new_frame_needed?
-    @frames[@current_index].strike? || @frames[@current_index].full?
-  end
-
-  def add_frame
-    @frames.push (Frame.new)
-    @current_index += 1
   end
 end
