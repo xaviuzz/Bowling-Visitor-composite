@@ -1,5 +1,6 @@
 require './game'
 require './frame'
+require './scorer'
 
 describe "The Bowling Game" do
 
@@ -81,7 +82,7 @@ describe "The Bowling Game" do
     @game.roll(STRIKE)
     @game.roll(STRIKE)
     @game.roll(STRIKE)
-    @game.roll(0)
+    @game.roll(STRIKE)
     expect(@game.score()).to eq(300)
   end
 

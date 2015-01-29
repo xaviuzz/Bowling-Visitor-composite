@@ -2,13 +2,19 @@ class Frame
   MAX_PINS = 10
 
   def initialize
-    @first= nil
-    @second= nil
+    @first = nil
+    @second = nil
   end
+
 
   def anotate pins_down
     return get_next.anotate pins_down if no_more_rolls?
     record pins_down
+  end
+
+  def accept scorer
+    scorer.compute self
+    @next.accept scorer unless @next.nil?
   end
 
   def spare_bonus
@@ -32,13 +38,6 @@ class Frame
     !@second.nil?
   end
 
-  def as_frames
-    collection = Array.new
-    collection.push(self)
-    collection = collection + @next.as_frames unless @next.nil?
-    collection
-  end
-
   private 
 
   def no_more_rolls?
@@ -52,9 +51,9 @@ class Frame
 
   def record pins_down
     if @first.nil?
-      @first=pins_down 
+      @first = pins_down 
     else
-      @second=pins_down
+      @second = pins_down
     end 
   end
 end
